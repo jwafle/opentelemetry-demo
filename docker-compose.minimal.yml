@@ -250,8 +250,6 @@ services:
       - LOCUST_WEB_PORT
       - GRAFANA_SERVICE_PORT
       - GRAFANA_SERVICE_HOST
-      - JAEGER_SERVICE_PORT
-      - JAEGER_SERVICE_HOST
       - OTEL_COLLECTOR_HOST
       - OTEL_COLLECTOR_PORT_GRPC
       - OTEL_COLLECTOR_PORT_HTTP
@@ -261,8 +259,6 @@ services:
       frontend:
         condition: service_started
       loadgenerator:
-        condition: service_started
-      jaeger:
         condition: service_started
       grafana:
         condition: service_started

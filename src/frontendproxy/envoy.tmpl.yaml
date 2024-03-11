@@ -1,7 +1,6 @@
 # Copyright The OpenTelemetry Authors
 # SPDX-License-Identifier: Apache-2.0
 
-
 static_resources:
   listeners:
     - address:
@@ -40,9 +39,11 @@ static_resources:
                         - match: { prefix: "/loadgen" }
                           route: { cluster: loadgen, prefix_rewrite: "/" }
                         - match: { prefix: "/otlp-http/" }
-                          route: { cluster: opentelemetry_collector_http, prefix_rewrite: "/" }
-                        - match: { prefix: "/jaeger" }
-                          route: { cluster: jaeger }
+                          route:
+                            {
+                              cluster: opentelemetry_collector_http,
+                              prefix_rewrite: "/",
+                            }
                         - match: { prefix: "/grafana" }
                           route: { cluster: grafana }
                         - match: { prefix: "/" }
@@ -119,18 +120,7 @@ static_resources:
                     socket_address:
                       address: ${GRAFANA_SERVICE_HOST}
                       port_value: ${GRAFANA_SERVICE_PORT}
-    - name: jaeger
-      type: STRICT_DNS
-      lb_policy: ROUND_ROBIN
-      load_assignment:
-        cluster_name: jaeger
-        endpoints:
-          - lb_endpoints:
-              - endpoint:
-                  address:
-                    socket_address:
-                      address: ${JAEGER_SERVICE_HOST}
-                      port_value: ${JAEGER_SERVICE_PORT}
+
 admin:
   address:
     socket_address:
