@@ -13,6 +13,9 @@ receivers:
   httpcheck/frontendproxy:
     targets:
       - endpoint: http://frontendproxy:${env:ENVOY_PORT}
+  redis:
+    endpoint: "redis-cart:6379"
+    collection_interval: 10s
 
 exporters:
   debug:
@@ -41,7 +44,7 @@ service:
       processors: [batch]
       exporters: [clickhouse, debug]
     metrics:
-      receivers: [httpcheck/frontendproxy, otlp]
+      receivers: [httpcheck/frontendproxy, redis, otlp, spanmetrics]
       processors: [batch]
       exporters: [clickhouse, debug]
     logs:
