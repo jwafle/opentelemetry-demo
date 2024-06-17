@@ -682,6 +682,18 @@ services:
       - "${GRAFANA_SERVICE_PORT}"
     logging: *logging
 
+  clickhouse-server:
+    image: clickhouse/clickhouse-server
+    container_name: clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    logging: *logging
+
   # OpenTelemetry Collector
   otelcol:
     image: ${COLLECTOR_CONTRIB_IMAGE}
@@ -700,6 +712,7 @@ services:
       - "${OTEL_COLLECTOR_PORT_HTTP}"
     depends_on:
       - jaeger
+      - clickhouse-server
     logging: *logging
     environment:
       - ENVOY_PORT
