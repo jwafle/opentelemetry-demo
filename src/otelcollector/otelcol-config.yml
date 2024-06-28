@@ -44,7 +44,7 @@ service:
       processors: [batch]
       exporters: [clickhouse, debug]
     metrics:
-      receivers: [httpcheck/frontendproxy, redis, otlp, spanmetrics]
+      receivers: [httpcheck/frontendproxy, redis, otlp]
       processors: [batch]
       exporters: [clickhouse, debug]
     logs:
